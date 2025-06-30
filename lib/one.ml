@@ -32,9 +32,22 @@ let a, b =
 
 let magnitude (x : int64) (y : int64) = Int64.sub x y |> Int64.abs
 
-let result =
+let result_part_1 =
   List.fold_left2
     (fun acc x y -> magnitude x y |> Int64.add acc)
     (Int64.of_int 0) a b
 
-let solution = Int64.to_string result
+let solution_part_1 = Int64.to_string result_part_1
+
+let count_occurrences element lst =
+  List.fold_left
+    (fun acc n ->
+      if Int64.equal n element then Int64.add acc (Int64.of_int 1) else acc)
+    (Int64.of_int 0) lst
+
+let result_part_2 =
+  List.fold_left
+    (fun acc x -> Int64.mul x (count_occurrences x b) |> Int64.add acc)
+    (Int64.of_int 0) a
+
+let solution_part_2 = Int64.to_string result_part_2
