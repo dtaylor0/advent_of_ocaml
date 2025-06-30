@@ -1,0 +1,7 @@
+_build/
+_opam/
+dune.lock
+.merlin
+*.install
+.ocamlformat
+.ocp-indent

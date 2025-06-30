@@ -1,0 +1,4 @@
+(library
+ (name advent_of_ocaml)
+ (libraries re)
+ (preprocess (pps ppx_deriving.show)))
