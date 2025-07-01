@@ -23,15 +23,14 @@ let rec decreasing prev lst =
   | [] -> true
   | hd :: tl -> if hd > prev then false else decreasing hd tl
 
+let safe_delta x y =
+  let delta = x - y |> Int.abs in
+  delta >= 1 && delta <= 3
+
 let rec safe_deltas prev lst =
   match lst with
   | [] -> true
-  | hd :: tl ->
-      if
-        let delta = Int.abs (hd - prev) in
-        delta < 1 || delta > 3
-      then false
-      else safe_deltas hd tl
+  | hd :: tl -> if safe_delta hd prev then safe_deltas hd tl else false
 
 let safe_report report =
   match report with
@@ -44,3 +43,19 @@ let result_part_1 =
     0 reports
 
 let solution_part_1 = string_of_int result_part_1
+
+let mostly_safe_report report =
+  let rec safe_check l r =
+    match r with
+    | [] -> false
+    | hd :: tl ->
+        if safe_report (l @ tl) then true else safe_check (l @ [ hd ]) tl
+  in
+  match report with [] -> true | _ -> safe_check [] report
+
+let result_part_2 =
+  List.fold_left
+    (fun acc report -> if mostly_safe_report report then acc + 1 else acc)
+    0 reports
+
+let solution_part_2 = string_of_int result_part_2
